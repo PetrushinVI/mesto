@@ -1,0 +1,8 @@
+.description__btn {
+  max-height: 19px;
+}
+
+.description__btn:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}

@@ -1,0 +1,19 @@
+.form__input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  height: 27px;
+  padding: 0;
+}
+
+.form__input:first-of-type {
+  margin-bottom: 30px;
+}
+
+.form__input::placeholder {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
