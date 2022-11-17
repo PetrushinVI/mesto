@@ -1,6 +1,6 @@
 .form__btn {
   margin-top: 48px;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -10,9 +10,10 @@
   background: #000000;
   border-radius: 2px;
   height: 50px;
+  padding: 0;
 }
 
-@media screen and (max-width: 474px) {
+@media screen and (max-width: 528px) {
   .form__btn {
     margin-top: 45px;
     font-size: 14px;

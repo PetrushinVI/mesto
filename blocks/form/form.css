@@ -5,7 +5,7 @@
   position: relative;
 }
 
-@media screen and (max-width: 474px) {
+@media screen and (max-width: 528px) {
   .form {
     margin: 25px 22px 25px;
   }
