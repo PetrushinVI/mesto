@@ -1,115 +1,68 @@
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import Section from '../components/Section.js';
-import PopupWithImage from '../components/PopupWithImage.js';
-import PopupWithForm from '../components/PopupWithForm.js';
-import UserInfo from '../components/UserInfo.js';
+import Card from "../scripts/components/Card.js";
+import FormValidator from "../scripts/components/FormValidator.js";
+import Section from '../scripts/components/Section.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import UserInfo from '../scripts/components/UserInfo.js';
 import './index.css'
+import {
+    infoBtn, addCard, formAddCard, profileForm, cardContainer, popupImageItem, popupImageTitle, initialCards, validationConfig, userData
+} from '../scripts/utils/constants';
 
-
-const infoBtn = document.querySelector('.profile__btn');
-const editProfile = document.querySelector('.edit-profile');
-const addCard = document.querySelector('.profile__add-btn');
-const popupAddCard = document.querySelector('.add-card');
-const formAddCard = popupAddCard.querySelector('.form');
-const form = editProfile.querySelector('.form');
-const profileName = document.querySelector('.profile__name');
-const profileAbout = document.querySelector('.profile__description');
-const cardContainer = document.querySelector('.elements');
-const popupImage = document.querySelector('.popup-image');
-const popupImageItem = popupImage.querySelector('.popup__image-item');
-const popupImageTitle = popupImage.querySelector('.popup__image-title');
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-const validationConfig = {
-    formSelector: '.form',
-    inputSelector: '.form__input',
-    submitButtonSelector: '.form__btn',
-    inactiveButtonClass: 'form__btn_disabled',
-    errorClass: 'form__input_type_error',
-};
-const userData = {
-    name: profileName,
-    job: profileAbout
+function createCard(cardData) {
+    const card = new Card(cardData,'#card-template', handleCardClick);
+    const cardElement = card.generateCard();
+    return cardElement;
 }
-
-
 
 const rendererCard = new Section({
         data: initialCards,
         renderer: (cardData) => {
-            const card = new Card(cardData, '#card-template', handleCardClick);
-            const cardElement = card.generateCard();
+            const cardElement = createCard(cardData);
             rendererCard.addDefaultItem(cardElement);
         }
     },
     cardContainer
 )
 
-const profileInfo = new PopupWithForm({
+const profilePopup = new PopupWithForm({
     selector: '.edit-profile',
     handleFormSubmit: (formData) => {
         userInfo.setUserInfo(formData);
     }
 })
 
-const newCard = new PopupWithForm({
+const cardPopup = new PopupWithForm({
     selector: '.add-card',
     handleFormSubmit: (formData) => {
-        const userCard = new Card(formData, '#card-template', handleCardClick);
-        const cardElement = userCard.generateCard();
+        const cardElement = createCard(formData);
         rendererCard.addUserItem(cardElement);
     }
 });
 
 const userInfo = new UserInfo(userData);
-const openImage = new PopupWithImage({popupImageTitle, popupImageItem}, '.popup-image');
-const profileValidation = new FormValidator(validationConfig, form);
+const imagePopup = new PopupWithImage({popupImageTitle, popupImageItem}, '.popup-image');
+const profileValidation = new FormValidator(validationConfig, profileForm);
 const cardValidation = new FormValidator(validationConfig, formAddCard);
 
 
-const handleCardClick = (title, link) => openImage.openPopup(title, link);
+const handleCardClick = (title, link) => imagePopup.openPopup(title, link);
 
 rendererCard.rendererItems();
 
 addCard.addEventListener('click', () => {
-    formAddCard.reset();
     cardValidation.disableButton();
-    newCard.openPopup();
+    cardPopup.openPopup();
 })
 
 infoBtn.addEventListener('click', () => {
-    profileInfo.setInputValues(userInfo.getUserInfo());
-    profileInfo.openPopup();
+    profilePopup.setInputValues(userInfo.getUserInfo());
+    profilePopup.openPopup();
 })
 
-profileInfo.setEventListeners();
-newCard.setEventListeners();
-openImage.setEventListeners();
+profilePopup.setEventListeners();
+cardPopup.setEventListeners();
+imagePopup.setEventListeners();
 
 
 profileValidation.enableValidation();
