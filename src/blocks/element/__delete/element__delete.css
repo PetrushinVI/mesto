@@ -10,6 +10,7 @@
   background-position: center;
   background-repeat: no-repeat;
   border-color: transparent;
+  z-index: 10;
 }
 
 .element__delete:hover {

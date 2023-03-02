@@ -1,40 +1,81 @@
 export default class Card {
-    constructor(data, templateSelector, handleCardClick) {
-        this._title = data.name;
-        this._link = data.link;
+    constructor(data, userId, templateSelector, {cardClick, deleteClick, likeClick}) {
+        this._data = data
+        this._Name = data.name;
+        this._Link = data.link;
+        this._likes = data.likes;
+        this._cardId = data._id
+        this._userId = userId
         this._templateSelector = templateSelector;
-        this._handleCardClick = handleCardClick;
+        this._cardClick = cardClick;
+        this._likeClick = likeClick;
+        this._deleteClick = deleteClick;
+        this._element = this._getTemplate();
+        this._elementImg = this._cardElement.querySelector('.element__picture');
+        this._elementTitle = this._cardElement.querySelector('.element__text');
+        this._elementDelete = this._cardElement.querySelector('.element__delete');
+        this._elementLike = this._cardElement.querySelector('.element__btn');
+        this._counterLikes = this._cardElement.querySelector('.element__like-counter');
+        this._isUserCard = userId === data.owner._id;
+    };
+
+    checkLike() {
+        return this._likes.some(item => item._id === this._userId);
+    }
+
+    _addLike() {
+        this._elementLike.classList.add('element__btn_active')
+    }
+
+    _deleteLike() {
+        this._elementLike.classList.remove('element__btn_active')
+    }
+
+    _setListenersItems() {
+        this._elementDelete.addEventListener('click', this._deleteClick);
+        this._elementLike.addEventListener('click', () => {
+            this._likeClick(this._cardId);
+            this.toggleLikes();
+        })
+        this._elementImg.addEventListener('click', () => {this._cardClick(this._Name, this._Link)});
+        if (!this._isUserCard) {
+            this._elementDelete.remove();
+            this._elementDelete = null;
+        } else {
+            this._elementDelete.addEventListener('click', () => {this._deleteClick(this._cardId, this._element)});
+        }
     }
 
     _getTemplate() {
-        const cardElement = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true);
-        return cardElement;
+        this._cardElement = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true);
+        return this._cardElement;
     }
 
-    generateCard() {
-        this._card = this._getTemplate();
-        this._cardImage = this._card.querySelector('.element__picture');
-        this._cardImage.src = this._link;
-        this._cardImage.alt = this._title;
-        this._card.querySelector('.element__text').textContent = this._title;
-        this._cardDeleteButton = this._card.querySelector('.element__delete');
-        this._cardLikeButton = this._card.querySelector('.element__btn');
-        this._setEventListeners();
-        return this._card;
+    createElement() {
+        this._elementTitle.textContent = this._Name;
+        this._elementImg.alt = this._Name;
+        this._elementImg.src = this._Link
+        this._counterLikes.textContent = this._likes.length;
+        this.setLike(this._likes)
+        this._setListenersItems();
+        return this._element;
     }
 
-    _setEventListeners() {
-        this._cardImage.addEventListener('click', () => this._handleCardClick(this._title, this._link));
-        this._cardDeleteButton.addEventListener('click', () => this._handleDeleteButton());
-        this._cardLikeButton.addEventListener('click', this._handleLikeButton);
+    toggleLikes() {
+        if (this.checkLike()) {
+            this._addLike()
+        } else {
+            this._deleteLike()
+        }
     }
 
-    _handleLikeButton = function (evt) {
-        evt.target.classList.toggle('element__btn_active');
-    }
-
-    _handleDeleteButton = () => {
-        this._card.remove();
-        this._card = null;
+    setLike(likesList) {
+        this._likes = likesList
+        this._counterLikes.textContent = this._likes.length
+        this.toggleLikes()
     }
 }
+
+
+
+
