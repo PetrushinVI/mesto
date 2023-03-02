@@ -1,8 +1,8 @@
 export default class Card {
     constructor(data, userId, templateSelector, {cardClick, deleteClick, likeClick}) {
         this._data = data
-        this._Name = data.name;
-        this._Link = data.link;
+        this._name = data.name;
+        this._link = data.link;
         this._likes = data.likes;
         this._cardId = data._id
         this._userId = userId
@@ -20,7 +20,7 @@ export default class Card {
     };
 
     checkLike() {
-        return this._likes.some(item => item._id === this._userId);
+        return this._likes.some(item => item._id === this._userId)
     }
 
     _addLike() {
@@ -37,12 +37,16 @@ export default class Card {
             this._likeClick(this._cardId);
             this.toggleLikes();
         })
-        this._elementImg.addEventListener('click', () => {this._cardClick(this._Name, this._Link)});
+        this._elementImg.addEventListener('click', () => {
+            this._cardClick(this._name, this._link)
+        });
         if (!this._isUserCard) {
             this._elementDelete.remove();
             this._elementDelete = null;
         } else {
-            this._elementDelete.addEventListener('click', () => {this._deleteClick(this._cardId, this._element)});
+            this._elementDelete.addEventListener('click', () => {
+                this._deleteClick(this._cardId, this._element)
+            });
         }
     }
 
@@ -52,11 +56,10 @@ export default class Card {
     }
 
     createElement() {
-        this._elementTitle.textContent = this._Name;
-        this._elementImg.alt = this._Name;
-        this._elementImg.src = this._Link
-        this._counterLikes.textContent = this._likes.length;
-        this.setLike(this._likes)
+        this._elementTitle.textContent = this._name;
+        this._elementImg.alt = this._name;
+        this._elementImg.src = this._link;
+        this.setLike(this._likes);
         this._setListenersItems();
         return this._element;
     }

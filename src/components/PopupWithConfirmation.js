@@ -1,4 +1,5 @@
 import Popup from './Popup.js'
+
 export default class PopupWithConfirmation extends Popup {
     constructor(selector, deleteClick) {
         super(selector);
@@ -8,7 +9,7 @@ export default class PopupWithConfirmation extends Popup {
     }
 
     renderLoading(isLoading) {
-        if (isLoading === true) {
+        if (isLoading) {
             this._submitButton.textContent = 'Удаление...';
         } else {
             this._submitButton.textContent = 'Да';

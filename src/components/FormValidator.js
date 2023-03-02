@@ -13,7 +13,7 @@ export default class FormValidator {
 
     _showError(inputElement, validationMessage) {
         const errorElement = this._getErrorElement(inputElement);
-        const { errorClass, inputErrorClass } = this._config;
+        const {errorClass, inputErrorClass} = this._config;
         errorElement.classList.add(errorClass);
         errorElement.textContent = validationMessage;
         inputElement.classList.add(inputErrorClass);
@@ -21,7 +21,7 @@ export default class FormValidator {
 
     _hideError(inputElement) {
         const errorElement = this._getErrorElement(inputElement);
-        const { errorClass, inputErrorClass } = this._config;
+        const {errorClass, inputErrorClass} = this._config;
         errorElement.classList.remove(errorClass);
         errorElement.textContent = '';
         inputElement.classList.remove(inputErrorClass)
@@ -61,12 +61,16 @@ export default class FormValidator {
                 this.toggleButtonState();
             });
             this._form.addEventListener('reset', () => {
-                setTimeout(() => {this.toggleButtonState();}, 0)
+                setTimeout(() => {
+                    this.toggleButtonState();
+                }, 0)
             })
         })
     };
 
-    enableValidation = () => {this._setEventListeners()};
+    enableValidation = () => {
+        this._setEventListeners()
+    };
 }
 
 

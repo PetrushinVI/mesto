@@ -1,5 +1,5 @@
 export default class Api {
-    constructor({ baseUrl, headers }) {
+    constructor({baseUrl, headers}) {
         this._baseUrl = baseUrl;
         this._headers = headers;
     }
@@ -10,7 +10,7 @@ export default class Api {
             method: "GET",
             headers: this._headers,
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     _checkResponse(res) {
@@ -25,7 +25,7 @@ export default class Api {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers,
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     editUserInfo(name, info) {
@@ -37,7 +37,7 @@ export default class Api {
                 about: info,
             }),
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     addCard(name, link) {
@@ -49,7 +49,7 @@ export default class Api {
                 link: link,
             }),
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     deleteCard(id) {
@@ -57,16 +57,16 @@ export default class Api {
             method: "DELETE",
             headers: this._headers,
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     editUserAvatar(body) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: "PATCH",
             headers: this._headers,
-            body: JSON.stringify({ avatar: body, }),
+            body: JSON.stringify({avatar: body,}),
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     addLike(id) {
@@ -74,7 +74,7 @@ export default class Api {
             method: "PUT",
             headers: this._headers,
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 
     deleteLike(id) {
@@ -82,7 +82,7 @@ export default class Api {
             method: "DELETE",
             headers: this._headers,
         })
-        .then(this._checkResponse);
+            .then(this._checkResponse);
     }
 }
 
